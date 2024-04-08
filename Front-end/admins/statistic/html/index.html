@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Exam Results</title>
+    <link rel="stylesheet" href="../../../general.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <img
+        class="logo"
+        alt="ptit"
+        src="https://code.ptit.edu.vn/2020/images/logo_ptit.png"
+      />
+      <nav class="main-nav">
+        <ul class="main-nav-list">
+          <li><a href="../../dashboard/html/index.html" class="main-nav-link">Dashboard</a></li>
+          <li><a href="../../create/html/index.html" class="main-nav-link">Create</a></li>
+          <li><a href="../../results/html/index.html" class="main-nav-link">Results</a></li>
+          <li><a href="../../statistic/html/index.html" class="main-nav-link">Statistics</a></li>
+          <li><a href="../../login/html/index.html" class="nav-cta main-nav-link">Sign out</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="filters">
+      <label for="exam-filter">Filter by Exam:</label>
+      <select id="exam-filter">
+        <option value="">All Exams</option>
+      </select>
+      <label for="date-filter">Filter by Date:</label>
+      <input type="date" id="date-filter" />
+    </div>
+    <div class="res__table">
+      <table id="results-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Exam</th>
+            <th>Entries</th>
+            <th>Completion %</th>
+            <th>Avg. Point</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <button id="export-btn">Export to PDF</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="../js/script.js"></script>
+  </body>
+</html>

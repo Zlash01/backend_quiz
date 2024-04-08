@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../../general.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>Admin Login</title>
+  </head>
+  <body>
+    <div class="cta-text-box">
+
+        <div class="login__main">
+
+            <div class="login__logo">
+                <img
+                    src="https://code.ptit.edu.vn/2020/images/logo_ptit.png"
+                    alt="Logo"
+                />
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="login__main__title">
+                        <p>Admin Login</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <form action="" class="login__main__form" method="post">
+                        <div class="login__flex">
+                            <label for="login__user">Username</label>
+                            <input
+                            type="text"
+                            name="username"
+                            id="login__user"
+                            value=""
+                            autofocus=""
+                            />
+                        </div>
+                        <div class="login__flex">
+                            <label for="login__pw">Password</label>
+                            <input
+                            type="password"
+                            name="password"
+                            id="login__pw"
+                            />
+                        </div>
+                        <div class="login__flex horizontal">
+                            <div class="checkbox__login">
+                            <input
+                                type="checkbox"
+                                value="1"
+                                name="remember"
+                                id="login__checkbox"
+                            />
+                            <label class="cb__label" for="login__checkbox">Remember me</label>
+                            </div>
+                        </div>
+                        <button type="button" class="login__btn"><span>Login</span></button>
+
+                        <div class="login__margin__top account">
+                            <p>You are a student? <a href="../../../user/login/html/index.html">Click here</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script src="../js/script.js"></script>
+  </body>
+</html>

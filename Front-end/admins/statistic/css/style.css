@@ -1,0 +1,103 @@
+body {
+  font-size: 1.6rem;
+}
+
+/* header section */
+
+.logo {
+  height: 3.6rem;
+  background-color: white;
+  border-radius: 2px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ff4122;
+
+  height: 4.8rem;
+  padding: 0 2.4rem;
+}
+/* ************************ */
+
+/* navigation */
+.main-nav-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 3.2rem;
+}
+
+.main-nav-link:link,
+.main-nav-link:visited {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 400;
+  font-size: 1.4rem;
+  transition: all 0.3s;
+}
+
+.main-nav-link:hover,
+.main-nav-link:active {
+  color: white;
+}
+
+.nav-cta:link,
+.nav-cta:visited {
+  display: inline-block;
+  padding: 0.8rem 2.4rem;
+  border: 1px solid white;
+  border-radius: 4px;
+  font-weight: 500;
+  color: white;
+}
+
+.nav-cta:hover,
+.nav-cta:active {
+  background-color: #ff6242;
+  box-shadow: inset 0 0 0 1px #cf711f;
+}
+
+.exam__page {
+  margin-top: 3.6rem;
+  margin-bottom: 1.6rem;
+}
+/* *************************** */
+
+.filters {
+  margin: 2rem;
+}
+
+.filters label {
+  margin-right: 1rem;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+button {
+  margin-top: 20px;
+}
+
+.res__table {
+  box-sizing: border-box;
+  margin: 1.2rem 2.4rem;
+}
+
+#export-btn {
+  margin: 1.2rem 2.4rem;
+}

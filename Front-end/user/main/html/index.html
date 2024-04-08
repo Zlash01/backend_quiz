@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../../general.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>Main page</title>
+  </head>
+
+  <body>
+    <header class="header">
+      <img
+        class="logo"
+        alt="OmniFood logo"
+        src="https://code.ptit.edu.vn/2020/images/logo_ptit.png"
+      />
+      <nav class="main-nav">
+        <ul class="main-nav-list">
+          <li><a href="index.html" class="main-nav-link">Exams</a></li>
+          <li><a href="../../login/html/index.html" class="nav-cta main-nav-link">Sign out</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+    <div class="container">
+      <h1 class="exam__page">Exam Page</h1>
+
+      <input type="text" id="searchInput" placeholder="Search exams by name" />
+      <select id="filterState">
+        <option value="all">All</option>
+        <option value="Join Anytime">Join Anytime</option>
+        <option value="Specific Time">Specific Time</option>
+      </select>
+    </div>
+    <div class="warp__list container">
+      <div id="examsList">
+        <!-- Exam cards will be dynamically added here -->
+      </div>
+    </div>
+    <script src="../js/script.js"></script>
+  </body>
+</html>

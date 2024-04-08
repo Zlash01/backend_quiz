@@ -1,0 +1,129 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ff4122;
+    height: 4.8rem;
+    padding: 0 2.4rem;
+}
+
+.main-nav-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 3.2rem;
+  }
+  
+  .main-nav-link:link,
+  .main-nav-link:visited {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 400;
+    font-size: 1.4rem;
+    transition: all 0.3s;
+  }
+  
+  .main-nav-link:hover,
+  .main-nav-link:active {
+    color: white;
+  }
+  
+  .nav-cta:link,
+  .nav-cta:visited {
+    display: inline-block;
+    padding: 0.8rem 2.4rem;
+    border: 1px solid white;
+    border-radius: 4px;
+    font-weight: 500;
+    color: white;
+  }
+  
+  .nav-cta:hover,
+  .nav-cta:active {
+    background-color: #ff6242;
+    box-shadow: inset 0 0 0 1px #cf711f;
+  }
+
+.level{
+  color: red;
+}
+
+/* Style for the result box */
+.result-box {
+    background-color: aliceblue;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    height: 250px;
+    line-height: 1.6;
+}
+
+.result-box .exam-info{
+  font-size: 20px;
+}
+
+.result-box .result-info{
+  text-align: center;
+}
+
+.result-box .result-info .result-title{
+  font-size: 5rem;
+}
+
+.result-box .result-info .score-title{
+  font-size: 3rem;
+}
+
+.result-box .result-info .score-title #score{
+  font-size: 4rem;
+  font-weight: bold;
+  color: red;
+}
+
+.answer-details{
+  font-size: 2rem;
+  line-height: 1.3;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.answer-details .correct-answer{
+  font-weight: bold;
+}
+
+.buttons{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+    position: relative;
+}
+
+.buttons .back-to-main{
+    background-color: red;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    padding: 6px 10px;
+    font-size: 2rem;
+}
+
+.buttons .back-to-main:hover{
+  cursor: pointer;
+  background-color: #940000;
+}
+
+.buttons .restart-quiz{
+    background-color: red;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    padding: 6px 10px;
+    font-size: 2rem;
+}
+
+.buttons .restart-quiz:hover{
+  cursor: pointer;
+  background-color: #940000;
+}

@@ -1,0 +1,33 @@
+.details{
+    background-color: aliceblue;
+    padding: 20px;
+    margin-top: 20px;
+    line-height: 1.6;
+}
+
+h1{
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.details .exam-info{
+    font-size: 25px;
+}
+
+.details .exam-info .info{
+    color: red;
+    display: inline;
+}
+
+.exam-answers{
+    font-size: 18px;
+}
+
+.exam-answers .questions-answers{
+    margin-bottom: 15px;
+}
+
+.exam-answers .questions-answers .questions{
+    font-weight: bold;
+}

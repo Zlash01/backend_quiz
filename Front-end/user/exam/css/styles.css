@@ -1,0 +1,125 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+nav {
+  background-color: #ff4122;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  z-index: 1000; /* Ensure it's on top of other content */
+}
+
+.header-logo .logo {
+  max-width: 1.5rem;
+  background-color: white;
+  border-radius: 50%;
+  padding: 3px 5px;
+  margin-left: 30px;
+}
+
+.test{
+  font-size: 1.2rem;
+}
+
+.test .questions{
+  font-weight: bold;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  height: 3rem;
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav ul li {
+display: inline-block;
+}
+
+nav ul li a {
+display: block;
+color: white;
+text-align: center;
+padding: 2rem 16px;
+text-decoration: none;
+}
+
+nav ul li ul li span{
+display: block;
+font-size: 23px;
+color: #f4f4f4;
+}
+
+nav ul li ul .separator{
+display: block;
+font-size: 23px;
+color: #f4f4f4;
+}
+
+.container {
+  width: 300px;
+  height: 1500px; 
+  position: absolute;
+  z-index: 889;
+  top: 0;
+  right: 0;
+}
+
+.sidebar {
+  width: 300px; /* Adjust the width as needed */
+  height: 100%;
+  background-color: #f4f4f4;
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
+.account {
+  width: 300px;
+  height: 140px;
+  background-color: #faeded;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  margin-bottom: 20px;
+  margin-top: 2rem;
+}
+
+.account-img{
+  border-radius: 50%;
+  overflow: hidden;
+  width: 30px;
+  height: 30px;
+  margin: 10px;
+}
+.avatar {
+  width: 100%; /* Ensure the image fills the container */
+  height: 100%;
+}
+.submit-box {
+  margin-top: 200%; /* Push to the bottom */
+  position: relative;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  
+}
+.test {
+  display: flex;
+  position: absolute;
+  margin-top: 5rem;
+  margin-left: 1rem;
+  z-index: 888;
+}
