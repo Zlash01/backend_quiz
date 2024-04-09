@@ -37,7 +37,6 @@ const getExams = async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 };
-
 //POST /api/admin/exams
 const addExam = async (req, res) => {
   try {
@@ -57,7 +56,6 @@ const addExam = async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 };
-
 //PUT /api/admin/exams/:id
 const updateExam = async (req, res) => {
   try {
@@ -81,7 +79,6 @@ const updateExam = async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 };
-
 //DELETE /api/admin/exams/:id
 const deleteExam = async (req, res) => {
   try {
@@ -109,7 +106,6 @@ const getUsers = async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 };
-
 //POST /api/admin/users
 const addUser = async (req, res) => {
   try {
@@ -123,7 +119,6 @@ const addUser = async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 };
-
 //PUT /api/admin/users/:id
 const updateUser = async (req, res) => {
   try {
@@ -144,7 +139,6 @@ const updateUser = async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 };
-
 //DELETE /api/admin/users/:id
 const deleteUser = async (req, res) => {
   try {
@@ -158,7 +152,6 @@ const deleteUser = async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 };
-
 //GET /api/admin/user/stats
 async function getAllStats(req, res) {
   try {

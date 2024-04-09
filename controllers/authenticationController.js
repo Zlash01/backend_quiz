@@ -13,7 +13,7 @@ const verifyUser = async (req, res) => {
     if (user) {
       res.status(200).send(user);
     } else {
-      res.status(404).send({ message: "User not found" });
+      res.status(404).send({ message: "Check your username and password" });
     }
   } catch (err) {
     res.status(500).send({ message: err.message });
