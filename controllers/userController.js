@@ -1,6 +1,40 @@
 const db = require("../models");
 
 const User = db.users;
+const Submission = db.submissions;
+
+const submitExam = async (req, res) => {
+  try {
+    // Save the submission to the database
+    const submission = await Submission.create({
+      user_id: req.body.user_id,
+      exam_id: req.body.exam_id,
+      score: req.body.score,
+      submited_at: new Date(),
+    });
+
+    // Respond with the newly created submission
+    res.status(201).json(submission);
+  } catch (error) {
+    console.error("Error submitting exam:", error);
+    res.status(500).json({ error: "Failed to submit exam" });
+  }
+};
+
+const viewResults = async (req, res) => {
+  try {
+    // Find all submissions for the user
+    const submissions = await Submission.findAll({
+      where: { user_id: req.params.id },
+    });
+
+    // Respond with the submissions
+    res.status(200).json(submissions);
+  } catch (error) {
+    console.error("Error viewing results:", error);
+    res.status(500).json({ error: "Failed to view results" });
+  }
+};
 
 const getAllUsers = async (req, res) => {
   try {
@@ -89,11 +123,12 @@ const getUserByName = async (req, res) => {
 };
 
 module.exports = {
-  addUser,
   getAllUsers,
   verifyUser,
   updateUser,
   deleteUser,
   getUserById,
   getUserByName,
+  viewResults,
+  submitExam,
 };

@@ -23,10 +23,10 @@ const submitQuestions = async (req, res) => {
       return {
         exam_id: req.params.id,
         question: question.question,
-        option_a: question.option_a,
-        option_b: question.option_b,
-        option_c: question.option_c,
-        option_d: question.option_d,
+        option1: question.option1,
+        option2: question.option2,
+        option3: question.option3,
+        option4: question.option4,
         correct_option: question.correct_option,
       };
     });

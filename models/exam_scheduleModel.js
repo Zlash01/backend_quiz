@@ -10,9 +10,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    scheduled_at: {
+    start_time: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    end_time: {
       type: DataTypes.DATE,
       allowNull: false,
     },
   });
+  return ExamSchedule;
 };

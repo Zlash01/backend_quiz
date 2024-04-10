@@ -1,17 +1,14 @@
 const db = require("../models");
 
-const Admin = db.admins;
 const Exam = db.exams;
 const User = db.users;
 const Submission = db.submissions;
+const Schedule = db.exam_schedules;
 
 //POST /api/admin/login
 const login = async (req, res) => {
   try {
-    if (is_admin !== 1) {
-      return res.status(401).send({ message: "Unauthorized access" });
-    }
-    const admin = await Admin.findOne({
+    const admin = await User.findOne({
       where: {
         username: req.body.username,
         password: req.body.password,
@@ -31,7 +28,7 @@ const login = async (req, res) => {
 //GET /api/admin/exams
 const getExams = async (req, res) => {
   try {
-    const exams = await Exam.findAll();
+    const exams = await Exam.findAll({});
     res.status(200).send(exams);
   } catch (err) {
     res.status(500).send({ message: err.message });
@@ -46,11 +43,27 @@ const addExam = async (req, res) => {
       is_scheduled: req.body.exam_is_scheduled,
     };
 
-    if (req.body.exam_is_scheduled && req.body.exam_scheduled_id) {
-      examData.scheduled_id = req.body.scheduled_id;
+    const exam = await Exam.create(examData);
+
+    if (
+      req.body.exam_is_scheduled &&
+      req.body.start_time &&
+      req.body.end_time
+    ) {
+      // Create a new schedule and link it to the exam
+      const newSchedule = await Schedule.create({
+        exam_id: exam.exam_id,
+        start_time: req.body.start_time,
+        end_time: req.body.end_time,
+      });
+
+      // Update the schedule's exam_id with the newly created exam's ID
+      await Schedule.update(
+        { exam_id: exam.exam_id },
+        { where: { schedule_id: newSchedule.schedule_id } }
+      );
     }
 
-    const exam = await Exam.create(examData);
     res.status(201).send(exam);
   } catch (err) {
     res.status(500).send({ message: err.message });
@@ -66,7 +79,7 @@ const updateExam = async (req, res) => {
     };
 
     if (req.body.exam_is_scheduled && req.body.exam_scheduled_id) {
-      examData.scheduled_id = req.body.scheduled_id;
+      updateFields.scheduled_id = req.body.scheduled_id;
     }
     const exam = await Exam.update(updateFields, {
       where: {

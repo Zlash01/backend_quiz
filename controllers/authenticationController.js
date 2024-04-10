@@ -8,6 +8,7 @@ const verifyUser = async (req, res) => {
       where: {
         username: req.body.username,
         password: req.body.password,
+        is_admin: 0,
       },
     });
     if (user) {
@@ -16,7 +17,7 @@ const verifyUser = async (req, res) => {
       res.status(404).send({ message: "Check your username and password" });
     }
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    res.status(500).send({ message: "Please check your input!" });
   }
 };
 
@@ -38,6 +39,11 @@ const registerUser = async (req, res) => {
     });
     res.send(newUser);
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    res.status(500).send({ message: "Please check your input!" });
   }
+};
+
+module.exports = {
+  verifyUser,
+  registerUser,
 };

@@ -21,6 +21,12 @@ app.use("/api/user", userRouter);
 const adminRouter = require("./routes/adminRouter.js");
 app.use("/api/admin", adminRouter);
 
+const authRouter = require("./routes/authRouter.js");
+app.use("/api/auth", authRouter);
+
+const questionRouter = require("./routes/questionRouter.js");
+app.use("/api/question", questionRouter);
+
 //test api
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to Quiz WebApp" });
