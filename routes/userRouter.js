@@ -1,14 +1,59 @@
 const userController = require("../controllers/userController");
+const middlewares = require("../controllers/middleware.js");
 const router = require("express").Router();
 
-router.post("/submit/", userController.submitExam);
-router.get("/result/:id", userController.viewResults);
+// POST /api/users/login
+router.post("/login", userController.verifyUser);
 
-router.get("/all", userController.getAllUsers);
-router.post("/verify", userController.verifyUser);
-router.put("/update/:id", userController.updateUser);
-router.delete("/delete/:id", userController.deleteUser);
-router.get("/get/:id", userController.getUserById);
-router.get("/get/username/:username", userController.getUserByName);
+// POST /api/users/register
+router.post("/register", userController.registerUser);
+
+// GET /users/find/:id: Get user details by ID.
+router.get(
+  "/find/:id",
+  middlewares.checkAccessToken,
+  middlewares.checkAdmin,
+  userController.getUserById
+);
+
+// GET /users: Get all users.
+router.get(
+  "/",
+  middlewares.checkAccessToken,
+  middlewares.checkAdmin,
+  userController.getAllUsers
+);
+
+//GET /users/current: Get current user details.
+router.get(
+  "/current",
+  middlewares.checkAccessToken,
+  middlewares.checkStudent,
+  userController.getCurrentUser
+);
+
+// PUT /users/current: Update current user details.
+router.put(
+  "/current",
+  middlewares.checkAccessToken,
+  middlewares.checkStudent,
+  userController.updateCurrentUser
+);
+
+// PUT /users/:id: Update user details by ID.
+router.put(
+  "/:id",
+  middlewares.checkAccessToken,
+  middlewares.checkAdmin,
+  userController.updateUserById
+);
+
+// DELETE /users/:id: Delete a user by ID.
+router.delete(
+  "/:id",
+  middlewares.checkAccessToken,
+  middlewares.checkAdmin,
+  userController.deleteUserById
+);
 
 module.exports = router;

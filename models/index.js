@@ -24,14 +24,26 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.users = require("./userModel.js")(sequelize, DataTypes);
-db.exams = require("./examModel.js")(sequelize, DataTypes);
-db.questions = require("./questionModel.js")(sequelize, DataTypes);
-db.submissions = require("./submissionModel.js")(sequelize, DataTypes);
-db.exam_questions = require("./exam_questionModel.js")(sequelize, DataTypes);
-db.exam_schedules = require("./exam_scheduleModel.js")(sequelize, DataTypes);
+db.user = require("./UserModel.js")(sequelize, DataTypes);
+db.exam = require("./ExamModel.js")(sequelize, DataTypes);
+db.student_exam_participation = require("./StudentExamParticipationModel.js")(
+  sequelize,
+  DataTypes
+);
+db.question = require("./QuestionModel.js")(sequelize, DataTypes);
+db.answer = require("./AnswersModel.js")(sequelize, DataTypes);
+db.student_answer = require("./StudentAnswerModel.js")(sequelize, DataTypes);
 
-db.sequelize.sync({ force: false }).then(() => {
+db.answer.hasMany(db.student_answer, {
+  foreignKey: "answer_id",
+  sourceKey: "id",
+});
+db.student_answer.belongsTo(db.answer, {
+  foreignKey: "answer_id",
+  targetKey: "id",
+});
+
+db.sequelize.sync({ alter: true }).then(() => {
   console.log("sync done");
 });
 

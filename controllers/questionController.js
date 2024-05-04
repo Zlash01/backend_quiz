@@ -1,44 +1,78 @@
 const db = require("../models");
-const Question = db.questions;
+const { get } = require("../routes/userRouter");
+const Question = db.question;
 
-//GET /api/exams/:id/questions
-const getQuestions = async (req, res) => {
+getAllQuestionsByExamId = async (req, res) => {
   try {
     const questions = await Question.findAll({
-      where: {
-        exam_id: req.params.id,
-      },
+      where: { exam_id: req.params.examId },
     });
-    res.status(200).send(questions);
+    res.status(200).json(questions);
+  } catch (error) {
+    console.error("Error getting questions:", error);
+    res.status(500).json({ error: "Failed to get questions" });
+  }
+};
+
+getQuestionById = async (req, res) => {
+  try {
+    const question = await Question.findByPk(req.params.id);
+    if (!question) {
+      return res.status(404).send({ message: "Question not found" });
+    }
+    res.status(200).send(question);
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
 };
 
-//POST /api/exams/:id/questions/submit
-const submitQuestions = async (req, res) => {
+// Create and Save a new Question
+const createQuestion = async (req, res) => {
   try {
-    let questions = req.body.questions;
-    questions = questions.map((question) => {
-      return {
-        exam_id: req.params.id,
-        question: question.question,
-        option1: question.option1,
-        option2: question.option2,
-        option3: question.option3,
-        option4: question.option4,
-        correct_option: question.correct_option,
-      };
+    const { question_text, exam_id } = req.body;
+    const newQuestion = await Question.create({
+      question_text,
+      exam_id,
     });
+    res.status(201).json(newQuestion);
+  } catch (error) {
+    console.error("Error creating question:", error);
+    res.status(500).json({ error: "Failed to create question" });
+  }
+};
 
-    const createdQuestions = await Question.bulkCreate(questions);
-    res.status(201).send(createdQuestions);
+updateQuestionById = async (req, res) => {
+  try {
+    const question = await Question.findByPk(req.params.id);
+    if (!question) {
+      return res.status(404).send({ message: "Question not found" });
+    }
+    question.question_text = req.body.question_text;
+    question.exam_id = req.body.exam_id;
+    await question.save();
+    res.status(200).send(question);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+deleteQuestionById = async (req, res) => {
+  try {
+    const question = await Question.findByPk(req.params.id);
+    if (!question) {
+      return res.status(404).send({ message: "Question not found" });
+    }
+    await question.destroy();
+    res.status(204).send();
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
 };
 
 module.exports = {
-  getQuestions,
-  submitQuestions,
+  createQuestion,
+  updateQuestionById,
+  deleteQuestionById,
+  getQuestionById,
+  getAllQuestionsByExamId,
 };

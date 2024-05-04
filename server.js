@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
@@ -8,24 +9,36 @@ var corsOptions = {
 };
 
 //middlewares
+const dotenv = require("dotenv");
+dotenv.config();
+
 app.use(cors(corsOptions));
+
+app.use(cookieParser());
 
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
 //routers
+
 const userRouter = require("./routes/userRouter.js");
-app.use("/api/user", userRouter);
+app.use("/api/users", userRouter);
 
-const adminRouter = require("./routes/adminRouter.js");
-app.use("/api/admin", adminRouter);
-
-const authRouter = require("./routes/authRouter.js");
-app.use("/api/auth", authRouter);
+const examRouter = require("./routes/examRouter.js");
+app.use("/api/exams", examRouter);
 
 const questionRouter = require("./routes/questionRouter.js");
-app.use("/api/question", questionRouter);
+app.use("/api/questions", questionRouter);
+
+const answerRouter = require("./routes/answerRouter.js");
+app.use("/api/answers", answerRouter);
+
+const studentExamParticipationRouter = require("./routes/studentExamParticipationRouter.js");
+app.use("/api/participations", studentExamParticipationRouter);
+
+const studentAnswerRouter = require("./routes/studentAnswersRouter.js");
+app.use("/api/student-answers", studentAnswerRouter);
 
 //test api
 app.get("/", (req, res) => {
