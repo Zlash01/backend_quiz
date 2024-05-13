@@ -85,7 +85,24 @@ const submitExamParticipation = async (req, res) => {
   }
 };
 
+const getAllExamParticipation = async (req, res) => {
+  try {
+    const user_id = req.params.id;
+    const allExams = await Participation.findAll({
+      where: {
+        user_id: user_id, // Use user_id from req.params.id
+      },
+    });
+
+    res.status(200).json({ success: true, data: allExams });
+  } catch (error) {
+    console.error("Error fetching exam participations:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
 module.exports = {
   startExamParticipation,
   submitExamParticipation,
+  getAllExamParticipation,
 };

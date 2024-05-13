@@ -18,4 +18,11 @@ router.put(
   studentExamParticipationController.submitExamParticipation
 );
 
+router.get(
+  "/exams/results/:id",
+  checkAccessToken,
+  checkStudent,
+  studentExamParticipationController.getAllExamParticipation
+);
+
 module.exports = router;

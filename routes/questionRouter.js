@@ -14,7 +14,7 @@ router.get("/:id", checkAccessToken, questionController.getQuestionById);
 
 // POST /questions/:examId: Create a new question for a specific exam (admin only).
 router.post(
-  "/:examId",
+  "/",
   checkAccessToken,
   checkAdmin,
   questionController.createQuestion

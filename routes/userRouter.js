@@ -28,7 +28,6 @@ router.get(
 router.get(
   "/current",
   middlewares.checkAccessToken,
-  middlewares.checkStudent,
   userController.getCurrentUser
 );
 

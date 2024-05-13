@@ -5,7 +5,9 @@ const User = db.user;
 // Check access token for general user
 const checkAccessToken = async (req, res, next) => {
   try {
-    const token = req.cookies.accessToken; // Read token from cookie
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(" ")[1]; // Read token from cookie
+    console.log(token);
     if (!token) {
       res.locals.user = null;
       return res.status(403).send({ message: "No token provided!" });

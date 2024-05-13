@@ -29,14 +29,9 @@ const verifyUser = async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
-      expiresIn: 86400, // 24 hours
-    });
+    const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
 
-    res.cookie("accessToken", token, {
-      httpOnly: true,
-      maxAge: 86400 * 1000, // 24 hours in milliseconds
-    });
+    res.cookie("accessToken", token, {});
 
     res.locals.user = user;
     const userObject = user.toJSON();

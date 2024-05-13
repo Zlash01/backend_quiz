@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:8081",
+  origin: "*",
 };
 
 //middlewares
