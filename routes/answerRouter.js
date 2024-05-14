@@ -10,12 +10,7 @@ router.get(
 );
 
 // POST /questions/:questionId/answers: Create a new answer for a specific question (admin only).
-router.post(
-  "/:questionId",
-  checkAccessToken,
-  checkAdmin,
-  answerController.createAnswer
-);
+router.post("/", checkAccessToken, checkAdmin, answerController.createAnswer);
 
 // GET /answers/:id: Get details of a specific answer by ID.
 router.get(

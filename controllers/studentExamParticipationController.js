@@ -41,7 +41,8 @@ const startExamParticipation = async (req, res) => {
 //end exam participation for a student
 const submitExamParticipation = async (req, res) => {
   try {
-    const participationId = req.params.participationId;
+    const participationId = req.params.id;
+    console.log(participationId);
     const participation = await Participation.findByPk(participationId);
 
     if (!participation) {
@@ -50,30 +51,49 @@ const submitExamParticipation = async (req, res) => {
 
     participation.end_time = new Date(); // Set end_time to current time
 
-    //Claude you start here
-    const correctAnswers = await Answer.findAll({
-      where: { is_correct: true },
-      attributes: ["id"],
-      raw: true,
+    const studentAnswers = await StudentAnswer.findAll({
+      where: { participation_id: participationId },
+      attributes: ["id", "question_id", "answer_id"],
     });
 
-    const studentAnswers = await StudentAnswer.findOne({
-      where: { id: participationId },
-      attributes: ["answer_id"],
-      raw: true,
-    });
-
-    let correctCount = 0;
-    const correctAnswerIds = correctAnswers.map((answer) => answer.id);
-
-    if (
-      studentAnswers.answer_id &&
-      correctAnswerIds.includes(studentAnswers.answer_id)
-    ) {
-      correctCount++;
+    if (!studentAnswers.length) {
+      return res
+        .status(404)
+        .json({ error: "No answers found for this participation" });
     }
 
-    participation.correct_answers = correctCount;
+    const result = [];
+    const uniqueAnswers = new Set();
+
+    for (let sa of studentAnswers) {
+      if (uniqueAnswers.has(sa.answer_id)) {
+        continue;
+      }
+
+      const answer = await Answer.findOne({
+        where: { id: sa.answer_id, is_correct: true },
+        attributes: ["answer_text"],
+      });
+
+      if (answer) {
+        const question = await Question.findOne({
+          where: { id: sa.question_id },
+          attributes: ["question_text"],
+        });
+
+        result.push({
+          student_answer_id: sa.id,
+          question_text: question ? question.question_text : null,
+          answer_text: answer.answer_text,
+          question_id: sa.question_id,
+          answer_id: sa.answer_id,
+        });
+
+        uniqueAnswers.add(sa.answer_id);
+      }
+    }
+
+    participation.correct_answers = result.length;
     //end here
 
     await participation.save();
@@ -82,6 +102,65 @@ const submitExamParticipation = async (req, res) => {
   } catch (error) {
     console.error("Error ending exam participation:", error);
     res.status(500).json({ error: "Failed to end exam participation" });
+  }
+};
+
+const getCorrectStudentAnswers = async (req, res) => {
+  try {
+    const participationId = req.params.id;
+
+    if (!participationId) {
+      return res.status(400).json({ error: "Participation ID is required" });
+    }
+
+    const studentAnswers = await StudentAnswer.findAll({
+      where: { participation_id: participationId },
+      attributes: ["id", "question_id", "answer_id"],
+    });
+
+    if (!studentAnswers.length) {
+      return res
+        .status(404)
+        .json({ error: "No answers found for this participation" });
+    }
+
+    const result = [];
+    const uniqueAnswers = new Set();
+
+    for (let sa of studentAnswers) {
+      if (uniqueAnswers.has(sa.answer_id)) {
+        continue;
+      }
+
+      const answer = await Answer.findOne({
+        where: { id: sa.answer_id, is_correct: true },
+        attributes: ["answer_text"],
+      });
+
+      if (answer) {
+        const question = await Question.findOne({
+          where: { id: sa.question_id },
+          attributes: ["question_text"],
+        });
+
+        result.push({
+          student_answer_id: sa.id,
+          question_text: question ? question.question_text : null,
+          answer_text: answer.answer_text,
+          question_id: sa.question_id,
+          answer_id: sa.answer_id,
+        });
+
+        uniqueAnswers.add(sa.answer_id);
+      }
+    }
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error("Error fetching correct student answers:", error);
+    return res.status(500).json({
+      error: "An error occurred while fetching correct student answers",
+    });
   }
 };
 
@@ -101,8 +180,46 @@ const getAllExamParticipation = async (req, res) => {
   }
 };
 
+const getStatisticParticipation = async (req, res) => {
+  try {
+    let exams = await Participation.findAll({});
+    const statisticExams = [];
+    for (let i = 0; i < exams.length; i++) {
+      let exam = await Exam.findOne({
+        where: { id: exams[i].exam_id },
+      });
+      let user = await User.findOne({
+        where: { id: exams[i].user_id },
+      });
+      let totalQuestions = exams[i].total_questions;
+      let correctAnswers = exams[i].correct_answers;
+      let score = (correctAnswers / totalQuestions) * 10;
+      statisticExams.push({
+        user,
+        exam,
+        score,
+        start_time: exams[i].start_time,
+        end_time: exams[i].end_time,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      count: statisticExams.length,
+      data: statisticExams,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error,
+    });
+  }
+};
+
 module.exports = {
   startExamParticipation,
   submitExamParticipation,
   getAllExamParticipation,
+  getStatisticParticipation,
+  getCorrectStudentAnswers,
 };

@@ -31,4 +31,16 @@ router.put(
 // DELETE /questions/:id: Delete a specific question by ID (admin only).
 router.delete("/:id", questionController.deleteQuestionById);
 
+router.get(
+  "/all-question/:examId",
+  checkAccessToken,
+  questionController.getQuestionWithAnswers
+);
+
+router.get(
+  "/single-question/:id",
+  checkAccessToken,
+  questionController.getOneQuestionWithAnswers
+);
+
 module.exports = router;

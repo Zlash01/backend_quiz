@@ -1,6 +1,8 @@
 const db = require("../models");
 const { get } = require("../routes/userRouter");
 const Question = db.question;
+const Answer = db.answer;
+const Exam = db.exam;
 
 getAllQuestionsByExamId = async (req, res) => {
   try {
@@ -20,6 +22,52 @@ getQuestionById = async (req, res) => {
     if (!question) {
       return res.status(404).send({ message: "Question not found" });
     }
+    res.status(200).send(question);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+const getQuestionWithAnswers = async (req, res) => {
+  try {
+    //get question from examid then get answers from questionid
+    const examId = req.params.examId;
+    const exam = await Exam.findByPk(examId);
+    const returnData = [];
+    if (!exam) {
+      return res.status(404).send({ message: "Exam not found" });
+    }
+    const questions = await Question.findAll({
+      where: { exam_id: examId },
+    });
+
+    for (let i = 0; i < questions.length; i++) {
+      const question = questions[i];
+      const answers = await Answer.findAll({
+        where: { question_id: question.id },
+      });
+      question.dataValues.answers = answers;
+
+      returnData.push({
+        question: question,
+      });
+    }
+    res.status(200).send(returnData);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+const getOneQuestionWithAnswers = async (req, res) => {
+  try {
+    const question = await Question.findByPk(req.params.id);
+    if (!question) {
+      return res.status(404).send({ message: "Question not found" });
+    }
+    const answers = await Answer.findAll({
+      where: { question_id: question.id },
+    });
+    question.dataValues.answers = answers;
     res.status(200).send(question);
   } catch (err) {
     res.status(500).send({ message: err.message });
@@ -75,4 +123,6 @@ module.exports = {
   deleteQuestionById,
   getQuestionById,
   getAllQuestionsByExamId,
+  getQuestionWithAnswers,
+  getOneQuestionWithAnswers,
 };

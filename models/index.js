@@ -43,7 +43,7 @@ db.student_answer.belongsTo(db.answer, {
   targetKey: "id",
 });
 
-db.sequelize.sync({ alter: true }).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
   console.log("sync done");
 });
 
