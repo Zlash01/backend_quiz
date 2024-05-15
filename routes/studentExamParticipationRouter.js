@@ -42,4 +42,10 @@ router.get(
   studentExamParticipationController.getCorrectStudentAnswers
 );
 
+router.get(
+  "/exam/:id",
+  checkAccessToken,
+  studentExamParticipationController.getExamParticipation
+);
+
 module.exports = router;

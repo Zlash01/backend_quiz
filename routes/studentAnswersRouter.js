@@ -16,4 +16,10 @@ router.post(
   studentAnswerController.addAnswers
 );
 
+router.get(
+  "/results/:id",
+  checkAccessToken,
+  studentAnswerController.getStudentAnswerResults
+);
+
 module.exports = router;

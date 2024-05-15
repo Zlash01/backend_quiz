@@ -1,4 +1,5 @@
 const db = require("../models");
+const { use } = require("../routes/userRouter");
 const Participation = db.student_exam_participation;
 const User = db.user;
 const Exam = db.exam;
@@ -105,6 +106,32 @@ const submitExamParticipation = async (req, res) => {
   }
 };
 
+const getExamParticipation = async (req, res) => {
+  try {
+    const participationId = req.params.id;
+    const participation = await Participation.findByPk(participationId);
+
+    if (!participation) {
+      return res.status(404).json({ error: "Participation not found" });
+    }
+    const exam = await Exam.findByPk(participation.exam_id);
+    const returnData = {
+      participation_id: participation.id,
+      exam_id: participation.exam_id,
+      description: exam.description,
+      exam_name: exam.name,
+      duration: exam.duration,
+      total_questions: participation.total_questions,
+      correct_answers: participation.correct_answers,
+    };
+
+    res.status(200).json(returnData);
+  } catch (error) {
+    console.error("Error fetching exam participation:", error);
+    res.status(500).json({ error: "Failed to fetch exam participation" });
+  }
+};
+
 const getCorrectStudentAnswers = async (req, res) => {
   try {
     const participationId = req.params.id;
@@ -173,7 +200,30 @@ const getAllExamParticipation = async (req, res) => {
       },
     });
 
-    res.status(200).json({ success: true, data: allExams });
+    const returnData = [];
+    for (let i = 0; i < allExams.length; i++) {
+      const user = await User.findOne({
+        where: { id: allExams[i].user_id },
+      });
+      const exam = await Exam.findOne({
+        where: { id: allExams[i].exam_id },
+      });
+
+      returnData.push({
+        participation_id: allExams[i].id,
+        user_id: user.id,
+        user_name: user.name,
+        student_id: user.student_id,
+        exam_id: exam.id,
+        exam_name: exam.name,
+        end_time: allExams[i].end_time,
+
+        correct_answers: allExams[i].correct_answers,
+        total_questions: allExams[i].total_questions,
+      });
+    }
+
+    res.status(200).json({ success: true, data: returnData });
   } catch (error) {
     console.error("Error fetching exam participations:", error);
     res.status(500).json({ success: false, error: "Internal server error" });
@@ -182,37 +232,35 @@ const getAllExamParticipation = async (req, res) => {
 
 const getStatisticParticipation = async (req, res) => {
   try {
-    let exams = await Participation.findAll({});
-    const statisticExams = [];
-    for (let i = 0; i < exams.length; i++) {
-      let exam = await Exam.findOne({
-        where: { id: exams[i].exam_id },
+    const allExams = await Participation.findAll({});
+
+    const returnData = [];
+    for (let i = 0; i < allExams.length; i++) {
+      const user = await User.findOne({
+        where: { id: allExams[i].user_id },
       });
-      let user = await User.findOne({
-        where: { id: exams[i].user_id },
+      const exam = await Exam.findOne({
+        where: { id: allExams[i].exam_id },
       });
-      let totalQuestions = exams[i].total_questions;
-      let correctAnswers = exams[i].correct_answers;
-      let score = (correctAnswers / totalQuestions) * 10;
-      statisticExams.push({
-        user,
-        exam,
-        score,
-        start_time: exams[i].start_time,
-        end_time: exams[i].end_time,
+
+      returnData.push({
+        participation_id: allExams[i].id,
+        user_id: user.id,
+        user_name: user.name,
+        student_id: user.student_id,
+        exam_id: exam.id,
+        exam_name: exam.name,
+        end_time: allExams[i].end_time,
+
+        correct_answers: allExams[i].correct_answers,
+        total_questions: allExams[i].total_questions,
       });
     }
 
-    res.status(200).json({
-      success: true,
-      count: statisticExams.length,
-      data: statisticExams,
-    });
+    res.status(200).json({ success: true, data: returnData });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error,
-    });
+    console.error("Error fetching exam participations:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
   }
 };
 
@@ -222,4 +270,5 @@ module.exports = {
   getAllExamParticipation,
   getStatisticParticipation,
   getCorrectStudentAnswers,
+  getExamParticipation,
 };
